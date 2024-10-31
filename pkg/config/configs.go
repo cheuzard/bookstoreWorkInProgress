@@ -26,9 +26,8 @@ type DB_config struct {
 }
 
 func LoadConfig(path string) (*DB_config, error) {
-	//os.Create("test")
 	wd, _ := os.Getwd()
-	path = filepath.Join(wd, "DB_config.json")
+	path = filepath.Join(wd, path)
 	fmt.Printf("%v\n", path)
 	DB := &DB_config{}
 	if filepath.Ext(path) != ".json" {
@@ -41,7 +40,7 @@ func LoadConfig(path string) (*DB_config, error) {
 	}
 	log.Printf("json file loaded")
 	if environment := os.Getenv("ENVIRONMENT"); environment == "" {
-		if err := godotenv.Load("../.env"); err != nil {
+		if err := godotenv.Load(".env"); err != nil {
 			return nil, err
 		}
 	}
