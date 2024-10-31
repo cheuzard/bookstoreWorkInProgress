@@ -57,8 +57,6 @@ type BookStaff struct {
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
 
-func (b BookStaff) GetTitle() string { return b.Title }
-
 type BookClient struct {
 	ISBN              string    `json:"isbn" db:"isbn"`
 	Title             string    `json:"title" db:"title"`
@@ -71,11 +69,7 @@ type BookClient struct {
 	//Category          string    `json:"category" db:"category"`
 }
 
-func (b BookClient) GetTitle() string { return b.Title }
-
-type Book interface {
-	GetTitle() string
-}
+type Book interface{}
 
 func (app App) OpenConnectionHandler() http.Handler {
 	log.Printf("Open connection Handler started \n")
