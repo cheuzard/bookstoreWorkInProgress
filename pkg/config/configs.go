@@ -1,4 +1,4 @@
-package pkg
+package config
 
 import (
 	"encoding/json"
@@ -39,16 +39,19 @@ func LoadConfig(path string) (*DB_config, error) {
 		log.Println("error reading file ", err)
 		return nil, err
 	}
+	log.Printf("json file loaded")
 	if environment := os.Getenv("ENVIRONMENT"); environment == "" {
-		if err := godotenv.Load(".env"); err != nil {
+		if err := godotenv.Load("../.env"); err != nil {
 			return nil, err
 		}
 	}
 	if err := json.Unmarshal(file, DB); err != nil {
 		return nil, errors.New("error unmarshalling file " + err.Error())
 	}
+	log.Printf("umarshaled json: %v", DB)
 	DB.DBUsers.AdminPass = os.Getenv("ADMIN_PASS")
 	DB.DBUsers.SearchPass = os.Getenv("SEARCH_PASS")
+	log.Printf("environement viriables\nloaded AdminPass: %v\nloaded SearchPass: %v\n", DB.DBUsers.Admin, DB.DBUsers.Search)
 
 	DB.DSN = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&tls=skip-verify&charset=utf8mb4", DB.DBUsers.Admin, DB.DBUsers.AdminPass, DB.DSNConfig.Addr, DB.DSNConfig.Port, DB.DSNConfig.DBNAME)
 	return DB, nil
