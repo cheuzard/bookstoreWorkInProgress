@@ -1,0 +1,11 @@
+{
+  "DSN_config": {
+    "addr": "cheusrv",
+    "port": "3306",
+    "DB_NAME": "bookstore"
+  },
+  "DB_users": {
+    "admin": "super_admin",
+    "search": "book_reader"
+  }
+}
